@@ -16,6 +16,7 @@ import ViewAttributeElement from '../../src/view/attributeelement';
 import ViewContainerElement from '../../src/view/containerelement';
 import ViewUIElement from '../../src/view/uielement';
 import ViewText from '../../src/view/text';
+import ViewDocument from '../../src/view/document';
 
 import testUtils from '@ckeditor/ckeditor5-core/tests/_utils/utils';
 
@@ -1685,13 +1686,19 @@ describe( 'downcast converters', () => {
 	} );
 
 	describe( 'createViewElementFromHighlightDescriptor()', () => {
+		let viewDocument;
+
+		beforeEach( () => {
+			viewDocument = new ViewDocument();
+		} );
+
 		it( 'should return attribute element from descriptor object', () => {
 			const descriptor = {
 				classes: 'foo-class',
 				attributes: { one: '1', two: '2' },
 				priority: 7
 			};
-			const element = createViewElementFromHighlightDescriptor( descriptor );
+			const element = createViewElementFromHighlightDescriptor( viewDocument, descriptor );
 
 			expect( element.is( 'attributeElement' ) ).to.be.true;
 			expect( element.name ).to.equal( 'span' );
@@ -1709,7 +1716,7 @@ describe( 'downcast converters', () => {
 				attributes: { one: '1', two: '2' },
 				priority: 7
 			};
-			const element = createViewElementFromHighlightDescriptor( descriptor );
+			const element = createViewElementFromHighlightDescriptor( viewDocument, descriptor );
 
 			expect( element.is( 'attributeElement' ) ).to.be.true;
 			expect( element.name ).to.equal( 'span' );
@@ -1727,7 +1734,7 @@ describe( 'downcast converters', () => {
 				attributes: { one: '1', two: '2' },
 				priority: 7
 			};
-			const element = createViewElementFromHighlightDescriptor( descriptor );
+			const element = createViewElementFromHighlightDescriptor( viewDocument, descriptor );
 
 			expect( element.is( 'attributeElement' ) ).to.be.true;
 			expect( element.name ).to.equal( 'span' );
@@ -1743,7 +1750,7 @@ describe( 'downcast converters', () => {
 				classes: 'foo-class',
 				attributes: { one: '1', two: '2' }
 			};
-			const element = createViewElementFromHighlightDescriptor( descriptor );
+			const element = createViewElementFromHighlightDescriptor( viewDocument, descriptor );
 
 			expect( element.is( 'attributeElement' ) ).to.be.true;
 			expect( element.name ).to.equal( 'span' );
@@ -1760,7 +1767,7 @@ describe( 'downcast converters', () => {
 				classes: 'foo-class',
 				priority: 7
 			};
-			const element = createViewElementFromHighlightDescriptor( descriptor );
+			const element = createViewElementFromHighlightDescriptor( viewDocument, descriptor );
 
 			expect( element.is( 'attributeElement' ) ).to.be.true;
 			expect( element.name ).to.equal( 'span' );

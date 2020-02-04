@@ -241,7 +241,7 @@ export function stringify( node, selectionOrPositionOrRange = null, markers = nu
 		// Stringify object types values for properly display as an output string.
 		const attributes = convertAttributes( modelItem.getAttributes(), stringifyAttributeValue );
 
-		return new ViewContainerElement( modelItem.name, attributes );
+		return new ViewContainerElement( viewDocument, modelItem.name, attributes );
 	} ) );
 
 	downcastDispatcher.on( 'selection', convertRangeSelection() );
