@@ -212,10 +212,9 @@ export function stringify( node, selectionOrPositionOrRange = null, markers = nu
 	// Create a temporary view controller.
 	const view = new View();
 	const viewDocument = view.document;
-	const viewRoot = new ViewRootEditableElement( 'div' );
+	const viewRoot = new ViewRootEditableElement( viewDocument, 'div' );
 
 	// Create a temporary root element in view document.
-	viewRoot._document = view.document;
 	viewRoot.rootName = 'main';
 	viewDocument.roots.add( viewRoot );
 
