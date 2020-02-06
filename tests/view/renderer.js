@@ -119,7 +119,7 @@ describe( 'Renderer', () => {
 		let viewRoot, domRoot;
 
 		beforeEach( () => {
-			viewRoot = new ViewEditableElement( 'div' );
+			viewRoot = new ViewEditableElement( viewDocument, 'div' );
 			viewRoot.getFillerOffset = () => null;
 
 			domRoot = document.createElement( 'div' );
@@ -1988,7 +1988,7 @@ describe( 'Renderer', () => {
 			} );
 
 			it( 'should move fake selection container between editables', () => {
-				const viewEditable = new ViewEditableElement( 'div' );
+				const viewEditable = new ViewEditableElement( viewDocument, 'div' );
 				viewEditable._appendChild( parse( '<container:p>abc xyz</container:p>' ) );
 
 				const domEditable = document.createElement( 'div' );

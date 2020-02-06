@@ -1320,13 +1320,15 @@ describe( 'DowncastHelpers', () => {
 					converterPriority: 7
 				};
 
-				let markerRange;
+				let markerRange, viewDocument;
 
 				beforeEach( () => {
+					viewDocument = new ViewDocument();
+
 					downcastHelpers.elementToElement( {
 						model: 'div',
 						view: () => {
-							const viewContainer = new ViewContainerElement( 'div' );
+							const viewContainer = new ViewContainerElement( viewDocument, 'div' );
 
 							viewContainer._setCustomProperty( 'addHighlight', ( element, descriptor, writer ) => {
 								writer.addClass( descriptor.classes, element );
@@ -1500,6 +1502,12 @@ describe( 'downcast converters', () => {
 
 	// Remove converter is by default already added in `EditingController` instance.
 	describe( 'remove()', () => {
+		let viewDocument;
+
+		beforeEach( () => {
+			viewDocument = new ViewDocument();
+		} );
+
 		it( 'should remove items from view accordingly to changes in model #1', () => {
 			const modelElement = new ModelElement( 'paragraph', null, new ModelText( 'foobar' ) );
 
@@ -1553,9 +1561,9 @@ describe( 'downcast converters', () => {
 		it( 'should not remove view ui elements that are placed next to removed content', () => {
 			modelRoot._appendChild( new ModelText( 'fozbar' ) );
 			viewRoot._appendChild( [
-				new ViewText( 'foz' ),
-				new ViewUIElement( 'span' ),
-				new ViewText( 'bar' )
+				new ViewText( viewDocument, 'foz' ),
+				new ViewUIElement( viewDocument, 'span' ),
+				new ViewText( viewDocument, 'bar' )
 			] );
 
 			// Remove 'b'.
@@ -1580,9 +1588,9 @@ describe( 'downcast converters', () => {
 		it( 'should remove correct amount of text when it is split by view ui element', () => {
 			modelRoot._appendChild( new ModelText( 'fozbar' ) );
 			viewRoot._appendChild( [
-				new ViewText( 'foz' ),
-				new ViewUIElement( 'span' ),
-				new ViewText( 'bar' )
+				new ViewText( viewDocument, 'foz' ),
+				new ViewUIElement( viewDocument, 'span' ),
+				new ViewText( viewDocument, 'bar' )
 			] );
 
 			// Remove 'z<span></span>b'.
@@ -1650,10 +1658,10 @@ describe( 'downcast converters', () => {
 			const modelP1 = new ModelElement( 'paragraph' );
 			const modelP2 = new ModelElement( 'paragraph' );
 
-			const viewP1 = new ViewContainerElement( 'p' );
-			const viewUi1 = new ViewUIElement( 'span' );
-			const viewUi2 = new ViewUIElement( 'span' );
-			const viewP2 = new ViewContainerElement( 'p' );
+			const viewP1 = new ViewContainerElement( viewDocument, 'p' );
+			const viewUi1 = new ViewUIElement( viewDocument, 'span' );
+			const viewUi2 = new ViewUIElement( viewDocument, 'span' );
+			const viewP2 = new ViewContainerElement( viewDocument, 'p' );
 
 			modelRoot._appendChild( [ modelP1, modelP2 ] );
 			viewRoot._appendChild( [ viewP1, viewUi1, viewUi2, viewP2 ] );
@@ -1915,7 +1923,11 @@ describe( 'downcast selection converters', () => {
 		} );
 
 		describe( 'collapsed selection', () => {
-			let marker;
+			let marker, viewDocument;
+
+			beforeEach( () => {
+				viewDocument = new ViewDocument();
+			} );
 
 			it( 'in container', () => {
 				test(
@@ -2047,8 +2059,8 @@ describe( 'downcast selection converters', () => {
 
 				// Add two ui elements to view.
 				viewRoot._appendChild( [
-					new ViewUIElement( 'span' ),
-					new ViewUIElement( 'span' )
+					new ViewUIElement( viewDocument, 'span' ),
+					new ViewUIElement( viewDocument, 'span' )
 				] );
 
 				model.change( writer => {
@@ -2080,7 +2092,7 @@ describe( 'downcast selection converters', () => {
 					dispatcher.convertInsert( model.createRangeIn( modelRoot ), writer );
 
 					// Add ui element to view.
-					const uiElement = new ViewUIElement( 'span' );
+					const uiElement = new ViewUIElement( viewDocument, 'span' );
 					viewRoot._insertChild( 1, uiElement );
 
 					dispatcher.convertSelection( docSelection, model.markers, writer );
@@ -2105,7 +2117,7 @@ describe( 'downcast selection converters', () => {
 					dispatcher.convertInsert( model.createRangeIn( modelRoot ), writer );
 
 					// Add ui element to view.
-					const uiElement = new ViewUIElement( 'span' );
+					const uiElement = new ViewUIElement( viewDocument, 'span' );
 					viewRoot._insertChild( 1, uiElement, writer );
 					dispatcher.convertSelection( docSelection, model.markers, writer );
 				} );

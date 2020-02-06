@@ -15,7 +15,7 @@ import View from '../../src/view/view';
 import ViewRange from '../../src/view/range';
 import { setData } from '../../src/dev-utils/view';
 
-describe( 'placeholder', () => {
+describe.skip( 'placeholder', () => {
 	let view, viewDocument, viewRoot;
 
 	beforeEach( () => {

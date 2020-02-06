@@ -1035,7 +1035,7 @@ function removeHighlight( highlightDescriptor ) {
 		}
 
 		// View element that will be used to unwrap `AttributeElement`s.
-		const viewHighlightElement = createViewElementFromHighlightDescriptor( descriptor );
+		const viewHighlightElement = createViewElementFromHighlightDescriptor( conversionApi.writer.document, descriptor );
 
 		// Get all elements bound with given marker name.
 		const elements = conversionApi.mapper.markerNameToElements( data.markerName );
