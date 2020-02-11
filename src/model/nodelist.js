@@ -64,7 +64,14 @@ export default class NodeList {
 	 * @type {Number}
 	 */
 	get maxOffset() {
-		return this._nodes.reduce( ( sum, node ) => sum + node.offsetSize, 0 );
+		let sum = 0;
+		
+		this._nodes.forEach( node => {
+		    sum += node.offsetSize;
+		} );
+		
+		return sum;
+		// return this._nodes.reduce( ( sum, node ) => sum + node.offsetSize, 0 );
 	}
 
 	/**
@@ -99,7 +106,17 @@ export default class NodeList {
 	getNodeStartOffset( node ) {
 		const index = this.getNodeIndex( node );
 
-		return index === null ? null : this._nodes.slice( 0, index ).reduce( ( sum, node ) => sum + node.offsetSize, 0 );
+		return index === null ? null : sum( this._nodes.slice( 0, index ) );
+		
+		function sum( nodes ) {
+		    let sum = 0;
+		
+		    nodes.forEach( node => {
+		        sum += node.offsetSize;
+		    } );
+		
+		    return sum;
+		}
 	}
 
 	/**
